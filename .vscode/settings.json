@@ -1,6 +1,12 @@
 {
-    "cSpell.words": [
-        "Contas",
-        
-    ]
+  "cSpell.words": ["Contas"],
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Dart-Code.dart-code"
+  }
 }
