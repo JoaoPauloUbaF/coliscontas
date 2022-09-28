@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:coliscontas/Screens/Login/login_screen.dart';
-import 'package:coliscontas/Screens/Welcome/components/background.dart';
+import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/constants.dart';
 import 'package:flutter/material.dart';

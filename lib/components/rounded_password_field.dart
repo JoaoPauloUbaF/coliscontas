@@ -2,14 +2,10 @@ import 'package:coliscontas/components/text_field_container.dart';
 import 'package:coliscontas/constants.dart';
 import 'package:flutter/material.dart';
 
-class RoundedInput extends StatelessWidget {
-  final String hintText;
-  final IconData icon;
+class RoundedPasswordField extends StatelessWidget {
   final ValueChanged<String> onChanged;
-  const RoundedInput({
+  const RoundedPasswordField({
     Key? key,
-    required this.hintText,
-    this.icon = Icons.person,
     required this.onChanged,
   }) : super(key: key);
 
@@ -18,15 +14,19 @@ class RoundedInput extends StatelessWidget {
     return TextFieldContainer(
         child: TextField(
       onChanged: onChanged,
-      textInputAction: TextInputAction.next,
+      obscureText: true,
+      textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        icon: Icon(
-          icon,
-          color: kPrimaryColor,
-        ),
-        hintText: hintText,
-        border: InputBorder.none,
-      ),
+          hintText: "Senha",
+          icon: Icon(
+            Icons.lock,
+            color: kPrimaryColor,
+          ),
+          suffixIcon: Icon(
+            Icons.visibility,
+            color: kPrimaryColor,
+          ),
+          border: InputBorder.none),
     ));
   }
 }

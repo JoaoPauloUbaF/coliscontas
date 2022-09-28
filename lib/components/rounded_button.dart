@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:coliscontas/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
@@ -20,7 +23,7 @@ class RoundedButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: SizedBox(
-        width: size.width * 0.7,
+        width: kIsWeb ? size.width * 0.2 : size.width * 0.7,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(29),
           child: TextButton(

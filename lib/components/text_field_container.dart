@@ -1,4 +1,5 @@
 import 'package:coliscontas/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TextFieldContainer extends StatelessWidget {
@@ -16,7 +17,7 @@ class TextFieldContainer extends StatelessWidget {
         vertical: 10,
       ),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      width: size.width * 0.7,
+      width: kIsWeb ? size.width * 0.2 : size.width * 0.7,
       decoration: BoxDecoration(
           color: kPrimaryLightColor, borderRadius: BorderRadius.circular(20)),
       child: child,
