@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:coliscontas/Screens/Login/login_screen.dart';
+import 'package:coliscontas/Screens/SignUp/sign_up_screen.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/constants.dart';
@@ -18,22 +19,20 @@ class Body extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                "Coli Contas",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                  fontFamily: 'LibreBaskerville',
-                ),
+            Text(
+              "Coli Contas",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                fontFamily: 'LibreBaskerville',
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset(
-                'assets/images/logo_coliseu.png',
-                height: size.height * 0.4,
+              padding: const EdgeInsets.symmetric(vertical: 25),
+              child: SvgPicture.asset(
+                "assets/icons/logo_coliseu.svg",
+                height: 300,
+                // width: 25,
               ),
             ),
             RoundedButton(
@@ -50,8 +49,17 @@ class Body extends StatelessWidget {
               },
             ),
             RoundedButton(
-              text: 'Sign Up',
-              press: () => {},
+              text: 'Criar Conta',
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignUpScreen();
+                    },
+                  ),
+                );
+              },
               color: kPrimaryLightColor,
               textColor: Colors.black,
             ),
