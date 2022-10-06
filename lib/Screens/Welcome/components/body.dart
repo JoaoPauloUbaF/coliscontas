@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:coliscontas/Screens/HomePage/home_page.dart';
 import 'package:coliscontas/Screens/Login/login_screen.dart';
 import 'package:coliscontas/Screens/SignUp/sign_up_screen.dart';
+import 'package:coliscontas/Screens/Welcome/welcome_screen.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -41,9 +44,16 @@ class Body extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
+                    builder: (context) => StreamBuilder<User?>(
+                      stream: FirebaseAuth.instance.authStateChanges(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return HomePage();
+                        } else {
+                          return LoginScreen();
+                        }
+                      },
+                    ),
                   ),
                 );
               },

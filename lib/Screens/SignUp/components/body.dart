@@ -6,14 +6,30 @@ import 'package:coliscontas/components/rounded_input.dart';
 import 'package:coliscontas/components/rounded_password_field.dart';
 import 'package:coliscontas/components/text_field_container.dart';
 import 'package:coliscontas/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
+  @override
   const Body({
     Key? key,
   }) : super(key: key);
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +52,12 @@ class Body extends StatelessWidget {
               child: RoundedInput(
                 hintText: "E-mail",
                 onChanged: (value) {},
+                controller: emailController,
               ),
             ),
             RoundedPasswordField(
               onChanged: (value) {},
+              controller: passwordController,
             ),
             RoundedButton(text: "Criar Conta", press: () {}),
             AlreadyHaveAccountCheck(
@@ -81,6 +99,13 @@ class Body extends StatelessWidget {
           ],
         )
       ]),
+    );
+  }
+
+  Future signUp() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
     );
   }
 }

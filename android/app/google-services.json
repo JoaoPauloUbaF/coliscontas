@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "631986204393",
+    "project_id": "colicontas-5cd5a",
+    "storage_bucket": "colicontas-5cd5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631986204393:android:fcc7da9e708eb1876e4a78",
+        "android_client_info": {
+          "package_name": "com.example.coliscontas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "631986204393-djtge0ctbmf0ij4jrgjne537gh82cnth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_eVqSr3etO1Td0NNE6N25XRk1PptvBf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "631986204393-djtge0ctbmf0ij4jrgjne537gh82cnth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
