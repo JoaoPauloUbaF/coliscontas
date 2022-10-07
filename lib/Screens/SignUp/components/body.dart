@@ -22,11 +22,13 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final userNameController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    userNameController.dispose();
 
     super.dispose();
   }
@@ -40,7 +42,7 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: size.height * 0.15),
+              padding: EdgeInsets.only(top: size.height * 0.05),
               child: SvgPicture.asset(
                 "assets/icons/logocoliseusemnome.svg",
                 height: 225,
@@ -48,7 +50,15 @@ class _BodyState extends State<Body> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: size.height * 0.02),
+              padding: EdgeInsets.only(top: size.height * 0.01),
+              child: RoundedInput(
+                hintText: "Nome de usuário",
+                onChanged: (value) {},
+                controller: userNameController,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: size.height * 0.01),
               child: RoundedInput(
                 hintText: "E-mail",
                 onChanged: (value) {},
@@ -59,7 +69,7 @@ class _BodyState extends State<Body> {
               onChanged: (value) {},
               controller: passwordController,
             ),
-            RoundedButton(text: "Criar Conta", press: () {}),
+            RoundedButton(text: "Criar Conta", press: signUpEmailAndPassword),
             AlreadyHaveAccountCheck(
                 login: false,
                 press: () {
@@ -102,12 +112,32 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Future signUp() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+  Future signUpEmailAndPassword() async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          )
+          .then((UserCredential userCredential) => {
+                userCredential.user!.updateDisplayName(userNameController.text),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginScreen();
+                    },
+                  ),
+                ),
+              });
+    } on FirebaseAuthException catch (e) {
+      print('Failed with error code: ${e.code}');
+      print(e.message);
+    }
+    ;
   }
+
+  signInWithGoogle() async {}
 }
 
 class SocialIcon extends StatelessWidget {

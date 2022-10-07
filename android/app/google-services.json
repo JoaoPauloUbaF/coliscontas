@@ -29,6 +29,13 @@
             {
               "client_id": "631986204393-djtge0ctbmf0ij4jrgjne537gh82cnth.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "631986204393-79l6sudg279e5lf5ntp2mhgcu06ciud8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coliscontas"
+              }
             }
           ]
         }
