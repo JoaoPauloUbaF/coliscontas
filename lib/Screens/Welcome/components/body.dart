@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:coliscontas/Screens/HomePage/home_page.dart';
-import 'package:coliscontas/Screens/Login/login_screen.dart';
-import 'package:coliscontas/Screens/SignUp/sign_up_screen.dart';
-import 'package:coliscontas/Screens/Welcome/welcome_screen.dart';
+import 'package:coliscontas/screens/HomePage/home_page.dart';
+import 'package:coliscontas/screens/Login/login_screen.dart';
+import 'package:coliscontas/screens/SignUp/sign_up_screen.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/constants.dart';
@@ -16,7 +15,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size; //Altura e largura total da tela
     return Background(
       child: SingleChildScrollView(
         child: Column(
@@ -34,7 +32,7 @@ class Body extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 25),
               child: SvgPicture.asset(
                 "assets/icons/logo_coliseu.svg",
-                height: 300,
+                height: MediaQuery.of(context).size.height * .4,
                 // width: 25,
               ),
             ),

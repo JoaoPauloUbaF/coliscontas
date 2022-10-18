@@ -1,12 +1,7 @@
-import 'dart:developer';
-
-import 'package:coliscontas/Screens/Welcome/welcome_screen.dart';
+import 'package:coliscontas/screens/Welcome/welcome_screen.dart';
 import 'package:coliscontas/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:getwidget/getwidget.dart';
-
-import '../Screens/Login/login_screen.dart';
 
 class SignOutButton extends StatefulWidget {
   const SignOutButton({
@@ -22,12 +17,12 @@ class _SignOutButtonState extends State<SignOutButton> {
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.all(size.width * 0.02),
-      child: GFIconButton(
+      child: IconButton(
         color: kPrimaryColor,
         onPressed: signOut,
         icon: Transform.scale(
           scaleX: -1,
-          child: Icon(
+          child: const Icon(
             Icons.output_sharp,
           ),
         ),
@@ -42,7 +37,7 @@ class _SignOutButtonState extends State<SignOutButton> {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return WelcomeScreen();
+          return const WelcomeScreen();
         },
       ),
     );

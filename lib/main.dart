@@ -1,6 +1,6 @@
 import 'package:coliscontas/Screens/Welcome/welcome_screen.dart';
 import 'package:coliscontas/constants.dart';
-import 'package:coliscontas/firebase_options.dart';
+import 'package:coliscontas/database/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -10,7 +10,7 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         primaryColor: kPrimaryColor,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

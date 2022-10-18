@@ -11,12 +11,12 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //Altura e largura total da tela
-    return Container(
+    return SizedBox(
       height: size.height,
       width: double.infinity,
       child: Stack(alignment: Alignment.center, children: <Widget>[
         Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,

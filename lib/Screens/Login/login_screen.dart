@@ -1,4 +1,4 @@
-import 'package:coliscontas/Screens/Login/components/body.dart';
+import 'package:coliscontas/screens/Login/components/body.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -6,6 +6,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(resizeToAvoidBottomInset: true, body: Body());
+    return const Scaffold(resizeToAvoidBottomInset: true, body: Body());
   }
 }

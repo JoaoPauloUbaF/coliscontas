@@ -16,6 +16,12 @@
       "deviceId": "emulator-5554"
     },
     {
+      "name": "PlayStore",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "emulator-5556"
+    },
+    {
       "name": "Web",
       "request": "launch",
       "type": "dart",

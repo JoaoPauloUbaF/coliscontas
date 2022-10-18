@@ -1,10 +1,10 @@
-import 'package:coliscontas/Screens/Login/login_screen.dart';
+import 'package:coliscontas/database/auth_service.dart';
+import 'package:coliscontas/screens/Login/login_screen.dart';
 import 'package:coliscontas/components/already_have_an_account_check.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/components/rounded_input.dart';
 import 'package:coliscontas/components/rounded_password_field.dart';
-import 'package:coliscontas/components/text_field_container.dart';
 import 'package:coliscontas/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -16,6 +16,8 @@ class Body extends StatefulWidget {
   const Body({
     Key? key,
   }) : super(key: key);
+  @override
+  // ignore: library_private_types_in_public_api
   _BodyState createState() => _BodyState();
 }
 
@@ -23,13 +25,13 @@ class _BodyState extends State<Body> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final userNameController = TextEditingController();
+  AuthService auth = AuthService();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     userNameController.dispose();
-
     super.dispose();
   }
 
@@ -46,7 +48,7 @@ class _BodyState extends State<Body> {
               child: SvgPicture.asset(
                 "assets/icons/logocoliseusemnome.svg",
                 height: 225,
-                // width: 25,
+                width: 100,
               ),
             ),
             Padding(
@@ -69,7 +71,13 @@ class _BodyState extends State<Body> {
               onChanged: (value) {},
               controller: passwordController,
             ),
-            RoundedButton(text: "Criar Conta", press: signUpEmailAndPassword),
+            RoundedButton(
+              text: "Criar Conta",
+              press: () {
+                auth.signUpEmailAndPassword(emailController.text,
+                    passwordController.text, userNameController.text, context);
+              },
+            ),
             AlreadyHaveAccountCheck(
                 login: false,
                 press: () {
@@ -77,16 +85,16 @@ class _BodyState extends State<Body> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return LoginScreen();
+                        return const LoginScreen();
                       },
                     ),
                   );
                 }),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            OrDivider(),
-            SizedBox(
+            const OrDivider(),
+            const SizedBox(
               height: 15,
             ),
             Row(
@@ -102,7 +110,9 @@ class _BodyState extends State<Body> {
                 ),
                 SocialIcon(
                   iconSrc: "assets/icons/google-plus.svg",
-                  press: () {},
+                  press: () {
+                    auth.signInWithGoogle();
+                  },
                 ),
               ],
             )
@@ -111,33 +121,6 @@ class _BodyState extends State<Body> {
       ]),
     );
   }
-
-  Future signUpEmailAndPassword() async {
-    try {
-      await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: emailController.text.trim(),
-            password: passwordController.text.trim(),
-          )
-          .then((UserCredential userCredential) => {
-                userCredential.user!.updateDisplayName(userNameController.text),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ),
-                ),
-              });
-    } on FirebaseAuthException catch (e) {
-      print('Failed with error code: ${e.code}');
-      print(e.message);
-    }
-    ;
-  }
-
-  signInWithGoogle() async {}
 }
 
 class SocialIcon extends StatelessWidget {
@@ -178,17 +161,18 @@ class SocialIcon extends StatelessWidget {
 }
 
 class OrDivider extends StatelessWidget {
-  @override
+  const OrDivider({super.key});
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return SizedBox(
       width: kIsWeb ? size.width * 0.2 : size.width * 0.7,
       child: Row(
         children: <Widget>[
           buildDivider(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.0),
             child: Text(
               "Ou",
               style: TextStyle(
@@ -204,7 +188,7 @@ class OrDivider extends StatelessWidget {
   }
 
   Expanded buildDivider() {
-    return Expanded(
+    return const Expanded(
       child: Divider(
         color: Color.fromARGB(255, 0, 0, 0),
         height: 1.5,

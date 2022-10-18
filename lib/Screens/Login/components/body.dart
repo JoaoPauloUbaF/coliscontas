@@ -1,16 +1,12 @@
-import 'dart:developer';
+import 'package:coliscontas/database/auth_service.dart';
+import 'package:coliscontas/screens/HomePage/home_page.dart';
 
-import 'package:coliscontas/Screens/HomePage/home_page.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:coliscontas/Screens/SignUp/sign_up_screen.dart';
+import 'package:coliscontas/screens/SignUp/sign_up_screen.dart';
 import 'package:coliscontas/components/already_have_an_account_check.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/components/rounded_input.dart';
 import 'package:coliscontas/components/rounded_password_field.dart';
-import 'package:coliscontas/components/text_field_container.dart';
-import 'package:coliscontas/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +22,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final auth = AuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final firebaseAuth = FirebaseAuth.instance;
@@ -52,6 +49,7 @@ class _BodyState extends State<Body> {
               child: SvgPicture.asset(
                 "assets/icons/coliseusemborda.svg",
                 height: 275,
+                width: 100,
               ),
             ),
             Container(
@@ -66,13 +64,18 @@ class _BodyState extends State<Body> {
               onChanged: (value) {},
               controller: passwordController,
             ),
-            RoundedButton(text: "Login", press: signIn),
+            RoundedButton(
+                text: "Login",
+                press: () {
+                  auth.signIn(
+                      emailController.text, passwordController.text, context);
+                }),
             AlreadyHaveAccountCheck(press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SignUpScreen();
+                    return const SignUpScreen();
                   },
                 ),
               );
@@ -81,38 +84,5 @@ class _BodyState extends State<Body> {
         )
       ]),
     );
-  }
-
-  signIn() async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (userCredential != null) {
-        // ignore: use_build_context_synchronously
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return const HomePage();
-            },
-          ),
-        );
-      }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Usuário não encontrado"),
-          backgroundColor: Colors.redAccent,
-        ));
-      } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("Senha incorreta"),
-          backgroundColor: Colors.redAccent,
-        ));
-      }
-    }
   }
 }

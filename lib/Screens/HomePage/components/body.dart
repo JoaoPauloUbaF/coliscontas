@@ -1,13 +1,9 @@
-import 'package:coliscontas/Screens/Login/login_screen.dart';
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/category_card.dart';
-import 'package:coliscontas/components/rounded_input.dart';
 import 'package:coliscontas/components/signout_button.dart';
-import 'package:coliscontas/constants.dart';
+import 'package:coliscontas/screens/Profile/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:getwidget/getwidget.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -23,12 +19,23 @@ class Body extends StatelessWidget {
           children: <Widget>[
             Container(
               margin: EdgeInsets.symmetric(horizontal: size.height * 0.01),
-              child: GFAvatar(
-                backgroundColor: Colors.grey[300],
-                backgroundImage: user.photoURL != null
-                    ? NetworkImage(user.photoURL!)
-                    : const NetworkImage(
-                        "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"),
+              child: InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return UserProfile();
+                      },
+                    ),
+                  );
+                },
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey[300],
+                  foregroundImage: user.photoURL != null
+                      ? NetworkImage(user.photoURL!)
+                      : const NetworkImage(
+                          "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"),
+                ),
               ),
             ),
             Column(
@@ -45,7 +52,7 @@ class Body extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(left: size.width * 0.1),
                   child: Text(
-                    user.displayName!,
+                    user.displayName != null ? user.displayName! : '',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
