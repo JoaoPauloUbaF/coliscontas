@@ -1,6 +1,4 @@
-import 'package:coliscontas/database/auth_service.dart';
-import 'package:coliscontas/screens/HomePage/home_page.dart';
-
+import 'package:coliscontas/database/auth/auth_service.dart';
 import 'package:coliscontas/screens/SignUp/sign_up_screen.dart';
 import 'package:coliscontas/components/already_have_an_account_check.dart';
 import 'package:coliscontas/components/background.dart';

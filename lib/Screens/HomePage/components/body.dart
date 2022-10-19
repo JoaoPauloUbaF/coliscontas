@@ -1,16 +1,26 @@
 import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/category_card.dart';
 import 'package:coliscontas/components/signout_button.dart';
+import 'package:coliscontas/helpers/loader.dart';
+import 'package:coliscontas/screens/Bills/bills_page.dart';
 import 'package:coliscontas/screens/Profile/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class Body extends StatelessWidget {
+import '../../../database/user/user_repository.dart';
+
+class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> with Loader {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
     Size size = MediaQuery.of(context).size;
     return Background(
       child: ListView(children: <Widget>[
@@ -24,18 +34,29 @@ class Body extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) {
-                        return UserProfile();
+                        return const UserProfile();
                       },
                     ),
                   );
                 },
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey[300],
-                  foregroundImage: user.photoURL != null
-                      ? NetworkImage(user.photoURL!)
-                      : const NetworkImage(
-                          "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"),
-                ),
+                child: FutureBuilder<NetworkImage>(
+                    future: userImage(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      if (snapshot.hasData) {
+                        return CircleAvatar(
+                          radius: MediaQuery.of(context).size.width * .07,
+                          backgroundColor: Colors.grey[300],
+                          foregroundImage: snapshot.data,
+                        );
+                      } else {
+                        return CircleAvatar(
+                          radius: MediaQuery.of(context).size.width * .07,
+                          backgroundColor: Colors.grey[300],
+                          foregroundImage: NetworkImage(user.photoURL!),
+                        );
+                      }
+                    }),
               ),
             ),
             Column(
@@ -77,7 +98,13 @@ class Body extends StatelessWidget {
                 color: Colors.green,
               ),
               press: () {
-                debugPrint("clicou Compras");
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const BillsPage();
+                    },
+                  ),
+                );
               },
             ),
             CategoryCard(
@@ -192,5 +219,17 @@ class Body extends StatelessWidget {
         ),
       ]),
     );
+  }
+
+  Future<NetworkImage> userImage() async {
+    final userImageRef = await UserRepository().getUserPhoto(user.uid);
+    if (userImageRef.isNotEmpty) {
+      user.updatePhotoURL(userImageRef);
+      return NetworkImage(userImageRef);
+    }
+    if (user.photoURL != null) {
+      return NetworkImage(user.photoURL!);
+    }
+    return const NetworkImage('');
   }
 }

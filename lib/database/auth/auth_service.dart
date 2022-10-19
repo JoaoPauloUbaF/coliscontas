@@ -28,6 +28,8 @@ class AuthService {
           )
           .then((UserCredential userCredential) => {
                 userCredential.user!.updateDisplayName(userName),
+                userCredential.user!.updatePhotoURL(
+                    "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"),
                 Navigator.push(
                   context,
                   MaterialPageRoute(

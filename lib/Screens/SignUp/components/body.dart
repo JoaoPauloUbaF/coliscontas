@@ -1,4 +1,4 @@
-import 'package:coliscontas/database/auth_service.dart';
+import 'package:coliscontas/database/auth/auth_service.dart';
 import 'package:coliscontas/screens/Login/login_screen.dart';
 import 'package:coliscontas/components/already_have_an_account_check.dart';
 import 'package:coliscontas/components/background.dart';
@@ -6,7 +6,6 @@ import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/components/rounded_input.dart';
 import 'package:coliscontas/components/rounded_password_field.dart';
 import 'package:coliscontas/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

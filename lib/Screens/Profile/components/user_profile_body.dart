@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:coliscontas/components/rounded_button.dart';
 import 'package:coliscontas/constants.dart';
-import 'package:coliscontas/database/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coliscontas/database/user/user_repository.dart';
+import 'package:coliscontas/helpers/image_picker_helper.dart';
+import 'package:coliscontas/helpers/loader.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileBody extends StatefulWidget {
@@ -12,22 +11,25 @@ class UserProfileBody extends StatefulWidget {
   State<UserProfileBody> createState() => _UserProfileBodyState();
 }
 
-class _UserProfileBodyState extends State<UserProfileBody> {
-  final user = FirebaseAuth.instance.currentUser!;
+class _UserProfileBodyState extends State<UserProfileBody> with Loader {
+  late var user = UserRepository().getUser();
   late TextEditingController nameEC = TextEditingController();
   final semesterEC = TextEditingController(text: '9º período');
   final majorEC =
       TextEditingController(text: 'Engenharia de Controle e Automação');
   final emailEC = TextEditingController();
   final passwordEC = TextEditingController();
-  late NetworkImage _userPhoto = const NetworkImage(
-      "https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png");
 
   @override
   void initState() {
     super.initState();
-    nameEC.text = user.displayName!;
-    userImage();
+    nameEC.text = user.name;
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    user = user;
+    super.setState(fn);
   }
 
   @override
@@ -56,11 +58,17 @@ class _UserProfileBodyState extends State<UserProfileBody> {
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
               InkWell(
-                onTap: () {},
+                onTap: () async {
+                  await ImagePickerHelper()
+                      .pickAndUploadImage(user)
+                      .then(setState(() {
+                    user = user;
+                  }));
+                },
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * .3,
                   backgroundColor: Colors.grey[300],
-                  foregroundImage: _userPhoto,
+                  foregroundImage: NetworkImage(user.picture),
                 ),
               ),
               TextFormField(
@@ -106,20 +114,5 @@ class _UserProfileBodyState extends State<UserProfileBody> {
         ),
       ),
     );
-  }
-
-  Future<void> userImage() async {
-    final userImageRef = await UserRepository().getUserPhoto(user.uid);
-    log(userImageRef);
-    if (userImageRef != null) {
-      setState(() {
-        _userPhoto = NetworkImage(userImageRef);
-      });
-    }
-    if (user.photoURL != null) {
-      setState(() {
-        _userPhoto = NetworkImage(user.photoURL!);
-      });
-    }
   }
 }
