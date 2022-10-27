@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "631986204393-1bcnm09s55tamoq8hbrhpjf08r8rr2u9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.coliscontas",
+            "certificate_hash": "e018bc57b12aadf989dcabf67da086165849b993"
+          }
+        },
+        {
           "client_id": "631986204393-djtge0ctbmf0ij4jrgjne537gh82cnth.apps.googleusercontent.com",
           "client_type": 3
         }

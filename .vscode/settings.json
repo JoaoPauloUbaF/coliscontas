@@ -8,5 +8,7 @@
   "[dart]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "Dart-Code.dart-code"
-  }
+  },
+  "cmake.sourceDirectory": "${workspaceFolder}/linux",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

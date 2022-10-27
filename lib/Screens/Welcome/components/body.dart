@@ -33,7 +33,6 @@ class Body extends StatelessWidget {
               child: SvgPicture.asset(
                 "assets/icons/logo_coliseu.svg",
                 height: MediaQuery.of(context).size.height * .4,
-                // width: 25,
               ),
             ),
             RoundedButton(

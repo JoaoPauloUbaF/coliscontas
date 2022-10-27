@@ -1,6 +1,7 @@
 import 'package:coliscontas/Screens/Welcome/welcome_screen.dart';
 import 'package:coliscontas/constants.dart';
 import 'package:coliscontas/database/firebase_options.dart';
+import 'package:coliscontas/providers/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -9,7 +10,7 @@ Future main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  setup();
   runApp(const MyApp());
 }
 

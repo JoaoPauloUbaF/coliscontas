@@ -1,3 +1,5 @@
+import 'package:coliscontas/database/user/user_repository.dart';
+import 'package:coliscontas/providers/provider.dart';
 import 'package:coliscontas/screens/HomePage/home_page.dart';
 import 'package:coliscontas/screens/Login/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +47,7 @@ class AuthService {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle(BuildContext context) async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -58,9 +60,20 @@ class AuthService {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
+    UserCredential? userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    getIt<UserRepository>().getUser();
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const HomePage();
+        },
+      ),
+    );
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return userCredential;
   }
 
   signIn(String email, String password, BuildContext context) async {
@@ -72,6 +85,7 @@ class AuthService {
       );
       // ignore: unnecessary_null_comparison
       if (userCredential != null) {
+        getIt<UserRepository>().getUser();
         // ignore: use_build_context_synchronously
         Navigator.push(
           context,

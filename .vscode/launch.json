@@ -22,6 +22,12 @@
       "deviceId": "emulator-5556"
     },
     {
+      "name": "PixelGooglePlay",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "emulator-5554"
+    },
+    {
       "name": "Web",
       "request": "launch",
       "type": "dart",

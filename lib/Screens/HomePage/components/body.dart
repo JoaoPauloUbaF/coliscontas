@@ -2,12 +2,11 @@ import 'package:coliscontas/components/background.dart';
 import 'package:coliscontas/components/category_card.dart';
 import 'package:coliscontas/components/signout_button.dart';
 import 'package:coliscontas/helpers/loader.dart';
+import 'package:coliscontas/models/user_model.dart';
+import 'package:coliscontas/providers/provider.dart';
 import 'package:coliscontas/screens/Bills/bills_page.dart';
 import 'package:coliscontas/screens/Profile/user_profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../../database/user/user_repository.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -17,8 +16,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> with Loader {
-  final user = FirebaseAuth.instance.currentUser!;
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -39,24 +36,11 @@ class _BodyState extends State<Body> with Loader {
                     ),
                   );
                 },
-                child: FutureBuilder<NetworkImage>(
-                    future: userImage(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      if (snapshot.hasData) {
-                        return CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * .07,
-                          backgroundColor: Colors.grey[300],
-                          foregroundImage: snapshot.data,
-                        );
-                      } else {
-                        return CircleAvatar(
-                          radius: MediaQuery.of(context).size.width * .07,
-                          backgroundColor: Colors.grey[300],
-                          foregroundImage: NetworkImage(user.photoURL!),
-                        );
-                      }
-                    }),
+                child: CircleAvatar(
+                  radius: MediaQuery.of(context).size.width * .07,
+                  backgroundColor: Colors.grey[300],
+                  foregroundImage: NetworkImage(getIt<UserModel>().picture),
+                ),
               ),
             ),
             Column(
@@ -70,15 +54,12 @@ class _BodyState extends State<Body> with Loader {
                     fontSize: 15,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: size.width * 0.1),
-                  child: Text(
-                    user.displayName != null ? user.displayName! : '',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: 'LibreBaskerville',
-                    ),
+                Text(
+                  getIt<UserModel>().name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontFamily: 'LibreBaskerville',
                   ),
                 ),
               ],
@@ -219,17 +200,5 @@ class _BodyState extends State<Body> with Loader {
         ),
       ]),
     );
-  }
-
-  Future<NetworkImage> userImage() async {
-    final userImageRef = await UserRepository().getUserPhoto(user.uid);
-    if (userImageRef.isNotEmpty) {
-      user.updatePhotoURL(userImageRef);
-      return NetworkImage(userImageRef);
-    }
-    if (user.photoURL != null) {
-      return NetworkImage(user.photoURL!);
-    }
-    return const NetworkImage('');
   }
 }

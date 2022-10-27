@@ -1,4 +1,5 @@
 import 'package:coliscontas/database/auth/auth_service.dart';
+import 'package:coliscontas/providers/provider.dart';
 import 'package:coliscontas/screens/SignUp/sign_up_screen.dart';
 import 'package:coliscontas/components/already_have_an_account_check.dart';
 import 'package:coliscontas/components/background.dart';
@@ -65,7 +66,7 @@ class _BodyState extends State<Body> {
             RoundedButton(
                 text: "Login",
                 press: () {
-                  auth.signIn(
+                  getIt<AuthService>().signIn(
                       emailController.text, passwordController.text, context);
                 }),
             AlreadyHaveAccountCheck(press: () {

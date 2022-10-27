@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel {
-  final String id;
-  late final String name;
-  final String email;
-  late final String semester;
-  late final String major;
-  late final String picture;
+  String id;
+  String name;
+  String email;
+  String semester;
+  String major;
+  String picture;
+  bool resident = false;
 
   UserModel(
       {required this.id,
@@ -14,7 +15,8 @@ class UserModel {
       required this.email,
       required this.picture,
       required this.semester,
-      required this.major});
+      required this.major,
+      required this.resident});
 
   factory UserModel.fromMap(User user) {
     return UserModel(
@@ -24,6 +26,7 @@ class UserModel {
       picture: user.photoURL ?? '',
       major: '',
       semester: '',
+      resident: true,
     );
   }
 

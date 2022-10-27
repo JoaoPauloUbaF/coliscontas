@@ -109,8 +109,12 @@ class _BodyState extends State<Body> {
                 ),
                 SocialIcon(
                   iconSrc: "assets/icons/google-plus.svg",
-                  press: () {
-                    auth.signInWithGoogle();
+                  press: () async {
+                    try {
+                      await auth.signInWithGoogle(context);
+                    } finally {
+                      auth.handleAuthState();
+                    }
                   },
                 ),
               ],
